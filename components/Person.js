@@ -38,7 +38,9 @@ function getNextId(){
   // return (person.id+1);
 }
 export function createPerson(_name, _phone) {
-    var _id=2;
+  var   data=getPersonList();
+  var person=data[data.length-1];
+  _id=person.id+1;
     var s=  realm.write(() => {
     realm.create('Person', {
       id:_id,

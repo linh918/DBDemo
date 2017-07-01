@@ -12,15 +12,21 @@ import {
   View
 } from 'react-native';
 import Realm from 'realm';
-import PersonListView from './components/PersonListView';
+import PhimMoiListView from './components/PhimMoiListView';
+
 
 export default class DBDemo extends Component {
   render() {
     return (
-      <PersonListView/>
+      <PhimMoiListView/>
     );
   }
+
+
+
 }
+
+
 
 const styles = StyleSheet.create({
   container: {

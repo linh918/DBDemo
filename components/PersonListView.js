@@ -20,10 +20,8 @@ export default class PersonListView extends Component{
     //
     //   },
     // ];
-   initPersonDatabase();
-  //   createPerson(4,'Linh',123);
-    // //s
-//    createPerson('Linh',123);
+
+
     data=getPersonList();
     var person=data[data.length-1];
      console.log(person.id);
