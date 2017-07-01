@@ -29,6 +29,7 @@ export function initPersonDatabase() {
       });
     });
      console.log("init");
+     //sadsd
   }
  console.log("not init");
 }
