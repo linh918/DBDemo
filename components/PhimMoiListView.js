@@ -5,7 +5,8 @@ import {
   Text,
   View,
   Image,
-  ListView
+  ListView,
+  RefreshControl,
 } from 'react-native';
 import { getPersonList, createPerson,initPersonDatabase } from './Person';
 export default class PhimMoiListView extends Component{
@@ -18,6 +19,9 @@ export default class PhimMoiListView extends Component{
 
 
     this.state={
+      page:1,
+      refreshing:false,
+      data:[],
       dataSource:new ListView.DataSource({rowHasChanged:(r1,r2)=>r1!==r2}),
     };
   }
@@ -30,10 +34,48 @@ export default class PhimMoiListView extends Component{
 
     );
 }
+
+loadNewData(){
+  this.setState({
+    refreshing:true,
+
+  })
+
+    fetch('http://demo9272831.mockable.io/phimmoi.json?page='+this.state.page)
+    .then((response) => response.json())
+    .then((responseJson) => {
+      if(responseJson.legth!=0){
+        mang=responseJson.concat(mang);
+        this.setState({
+
+          dataSource:this.state.dataSource.cloneWithRows(mang),
+          refreshing:false,
+           page:this.state.page+1,
+        });
+      }
+
+      })
+      .catch((error) => {
+        this.setState({
+          refreshing:false
+        });
+
+      });
+
+
+
+}
+
     render(){
       return(
         <View>
         <ListView
+        refreshControl={
+          <RefreshControl
+          refreshing={this.state.refreshing}
+          onRefresh={this.loadNewData.bind(this)}
+          />
+        }
          dataSource={this.state.dataSource}
          renderRow={this._renderRow.bind(this)}
         />
@@ -46,12 +88,15 @@ export default class PhimMoiListView extends Component{
       .then((response) => response.json())
       .then((responseJson) => {
          console.log(responseJson);
+         mang =responseJson;
          this.setState({
-           dataSource:this.state.dataSource.cloneWithRows(responseJson),
+
+           dataSource:this.state.dataSource.cloneWithRows(mang),
+           page:this.state.page+1,
          });
         })
         .catch((error) => {
-          console.error(error);
+
         });
     }
 
